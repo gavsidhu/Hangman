@@ -18,6 +18,8 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://hangman-3709c-default-rtdb.firebaseio.com'
 })
 
+
+
 # Define a route to generate a new game link
 @app.route('/new_game', methods=['POST'])
 def new_game():
@@ -57,6 +59,15 @@ def submit_score():
 
     # Return a success message as a JSON response
     return jsonify({'message': 'Score submitted successfully.'})
+
+
+@app.route('/game/<game_id>')
+def get_game_data(game_id):
+    # Get the game data from the Firebase Realtime Database
+    game_data = db.reference('games').child(game_id).get()
+
+    # Return the game data as a JSON response
+    return jsonify(game_data)
 
 # Define a route to display the leaderboard for a specific game
 @app.route('/game/<game_id>/leaderboard')
