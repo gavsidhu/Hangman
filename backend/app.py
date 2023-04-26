@@ -27,6 +27,7 @@ def new_game():
     name = request.json['name']
     word = request.json['word']
 
+
     # Generate a new game ID
     new_game_id = db.reference('games').push().key
 
@@ -40,7 +41,7 @@ def new_game():
     db.reference('games').child(new_game_id).set(game_data)
 
     # Return the new game link as a JSON response
-    return jsonify({'game_link': f'/game/{new_game_id}'})
+    return jsonify({'id': new_game_id})
 
 # Define a route to submit a score
 @app.route('/submit_score', methods=['POST'])
