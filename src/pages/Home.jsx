@@ -22,6 +22,11 @@ export default function Home() {
           description="You choose a word and the computer tries to guess the word."
         />
         <ChallengeAFriend />
+        <GameModeCard
+          title="Leaderboard"
+          description="See the top highest scorers in Hangman."
+          onClick={() => navigate("/leaderboard")}
+        />
       </div>
     </div>
   );
