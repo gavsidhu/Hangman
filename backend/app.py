@@ -25,7 +25,8 @@ firebase_admin.initialize_app(cred, {
 def new_game():
     # Get the user's name and word from the request data
     name = request.json['name']
-    word = request.json['word']
+    # convert word to lowercase
+    word = request.json['word'].lower()
 
 
     # Generate a new game ID
