@@ -15,7 +15,7 @@ key_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'serviceAccou
 # Initialize Firebase
 cred = credentials.Certificate(key_path)
 firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://hangman-3709c-default-rtdb.firebaseio.com'
+    'databaseURL': 'https://hangman-d0115-default-rtdb.firebaseio.com/'
 })
 
 
