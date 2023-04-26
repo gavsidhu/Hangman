@@ -29,13 +29,15 @@ export default function Game() {
       getGameById(gameId).then(async (response) => {
         const { word } = await response.json();
         setWord(word);
-        setMaskedWord(transformWord(word));
       });
     } else {
       setWord(wordBank[Math.floor(Math.random() * wordBank.length)]);
-      setMaskedWord(transformWord(word));
     }
-  }, [transformWord, word]);
+  }, []);
+
+  useEffect(() => {
+    setMaskedWord(transformWord(word));
+  }, [transformWord, word, correctGuesses]);
 
   return (
     <div className="max-w-5xl mx-auto">
