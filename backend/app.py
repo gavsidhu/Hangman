@@ -91,8 +91,8 @@ def main_leaderboard():
 
     # Get the scores for the current game from the Firebase Realtime Database
     scores_ref = db.reference('scores')
-    scores = scores_ref.get()
-
+    scores = scores_ref.order_by_child('game_id').equal_to('').get()
+    
     # Return the leaderboard data as a JSON response
     return jsonify(scores)
 
