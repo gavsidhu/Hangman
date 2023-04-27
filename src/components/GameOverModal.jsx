@@ -65,13 +65,21 @@ export default function GameOverModal({win, open, setOpen, elapsedTime}) {
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
                     onClick={async () => {
-                      try {
-                        const response = await sendScore({ name, elapsedTime });
-                        // Handle the response from the API endpoint
-                        console.log(response);
-                      } catch (error) {
-                        // Handle errors that occur during the API request
-                        console.error(error);
+                      if(!name) {
+                        alert("Please enter your name if you want to be added to the leaderboard.");
+                        return;
+                      }
+                      else {
+                        try {
+                          const response = await sendScore({ name, elapsedTime });
+                          // Handle the response from the API endpoint
+                          console.log(response);
+                          alert(name + " has been added to the leaderboard.");
+                          navigate('/');
+                        } catch (error) {
+                          // Handle errors that occur during the API request
+                          console.error(error);
+                        }
                       }
                     }}
                   >

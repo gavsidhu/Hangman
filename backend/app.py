@@ -111,10 +111,20 @@ def save_score():
     # Return a success message as a JSON response
     return jsonify({'message': 'Score submitted successfully.'})
 
+# Define a route to display the leaderboard for a specific game
+@app.route('/main_leaderboard')
+def main_leaderboard():
+
+    # Get the scores for the current game from the Firebase Realtime Database
+    scores_ref = db.reference('scores')
+    scores = scores_ref.get()
+
+    # Return the leaderboard data as a JSON response
+    return jsonify(scores)
 
 @app.route('/')
 def index():
-    return 'Hello World!'
+    return main_leaderboard()
 
 
 if __name__ == '__main__':

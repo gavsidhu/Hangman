@@ -1,12 +1,14 @@
+import React, { useState, useEffect } from 'react';
+
 export default function Leaderboard() {
 
-    // temporary rankings to see how the table looks
-    const rankings = [
-        { name: "Jonathan McFennister Schaquakerham the 3rd", score: 100 },
-        { name: "Bob", score: 90 },
-        { name: "Jane", score: 90 },
-        { name: "John", score: 80 },
-      ];
+    const [scores, setScores] = useState({});
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_URL}/main_leaderboard`)
+        .then(response => response.json())
+        .then(data => setScores(data))
+        .catch(error => console.error(error))
+    }, []);
 
     return (
         <div className="max-w-xl mx-auto text-center">
@@ -24,16 +26,17 @@ export default function Leaderboard() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rankings.map((ranking, index) => (
+                        {Object.keys(scores).map((score, index) => (
                         <tr key={index}>
                             <td className="border px-4 py-2">
                                 {index + 1 === 1 && <img src="/gold_medal.png" alt="gold medal icon" className="w-10 h-14" />}
                                 {index + 1 === 2 && <img src="/silver_medal.png" alt="silver medal icon" className="w-10 h-14" />}
                                 {index + 1 === 3 && <img src="/bronze_medal.png" alt="bronze medal icon" className="w-10 h-14" />}
                                 {index + 1 > 3 && index + 1}
+                                {index + 1}
                             </td>
-                            <td className="border px-4 py-2">{ranking.name}</td>
-                            <td className="border px-4 py-2">{ranking.score}</td>
+                            <td className="border px-4 py-2">{scores[score].name}</td>
+                            <td className="border px-4 py-2">{scores[score].score} seconds</td>
                         </tr>
                         ))}
                 </tbody>
