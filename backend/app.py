@@ -88,11 +88,13 @@ def save_score():
 # Define a route to display the leaderboard for a specific game
 @app.route('/main_leaderboard')
 def main_leaderboard():
-
     # Get the scores for the current game from the Firebase Realtime Database
     scores_ref = db.reference('scores')
-    scores = scores_ref.order_by_child('game_id').equal_to('').get()
-    
+    scores_snapshot = scores_ref.order_by_child('game_id').equal_to('').get()
+
+    scores = {}
+    for key, value in scores_snapshot.items():
+        scores[key] = value
     # Return the leaderboard data as a JSON response
     return jsonify(scores)
 
