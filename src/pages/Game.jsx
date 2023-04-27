@@ -4,6 +4,7 @@ import { alphabet } from "../constants/alphabet";
 import { wordBank } from "../constants/wordBank";
 import { getGameById } from "../api/get-game-by-id";
 import GameOverModal from "../components/GameOverModal";
+import { PauseCircleIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 
 export default function Game() {
   const [word, setWord] = useState("");
@@ -65,9 +66,17 @@ export default function Game() {
   }, [wrongAttempts, maskedWord]);
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <button onClick={() => setPause(!pause)}>pause</button>
-      <p>{elapsedTime / 100} seconds</p>
+    <div className="max-w-5xl mx-auto py-12">
+      <div className="flex flex-row items-center space-x-3">
+        <button onClick={() => setPause(!pause)}>
+          {!pause ? (
+            <PauseCircleIcon className="h-6 w-6 text-red-500" />
+          ) : (
+            <PlayCircleIcon className="h-6 w-6 text-green-500" />
+          )}
+        </button>
+        <p>{elapsedTime / 100} seconds</p>
+      </div>
       {wrongAttempts > 5 && open && (
         <GameOverModal
           win={false}
@@ -89,7 +98,7 @@ export default function Game() {
       </div>
       <div className="flex flex-row py-12">
         <div className="w-1/2">
-          <div className="grid grid-cols-6 gap-1">
+          <div className="grid grid-cols-6 gap-3">
             {alphabet.map((letter, index) => {
               return (
                 <button
@@ -100,7 +109,7 @@ export default function Game() {
                       : correctGuesses.includes(letter.toLowerCase())
                       ? "bg-green-500"
                       : "bg-gray-200"
-                  } w-12 h-12 disabled:cursor-not-allowed`}
+                  } hover:shadow-md h-12 disabled:cursor-not-allowed rounded-lg w-full`}
                   onClick={() => {
                     const lowerCaseLetter = letter.toLowerCase();
                     const lowerCaseWord = word.toLowerCase();
