@@ -62,11 +62,14 @@ def game_leaderboard(game_id):
     scores_ref = db.reference('scores')
     scores_snapshot = scores_ref.order_by_child('game_id').equal_to(game_id).get()
 
-    scores = {}
-    for key, value in scores_snapshot.items():
-        scores[key] = value
+    values = []
+    for value in scores_snapshot.values():
+        values.append(value)
+
+    sorted_list = sorted(values, key=lambda x: x['score'])
+
     # Return the leaderboard data as a JSON response
-    return jsonify(scores)
+    return jsonify(sorted_list)
 
 # Save the score to the leaderboard when user wins hangman and enters their name
 @app.route('/save_score', methods=['POST'])
