@@ -33,7 +33,6 @@ export default function Leaderboard() {
                                 {index + 1 === 2 && <img src="/silver_medal.png" alt="silver medal icon" className="w-10 h-14" />}
                                 {index + 1 === 3 && <img src="/bronze_medal.png" alt="bronze medal icon" className="w-10 h-14" />}
                                 {index + 1 > 3 && index + 1}
-                                {index + 1}
                             </td>
                             <td className="border px-4 py-2">{scores[score].name}</td>
                             <td className="border px-4 py-2">{scores[score].score} seconds</td>
