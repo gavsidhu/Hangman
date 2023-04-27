@@ -7,7 +7,7 @@ export const sendScore = ({ name, elapsedTime, gameId }) => {
     body: JSON.stringify({
       name: name,
       score: elapsedTime / 100,
-      game_id: gameId || null,
+      game_id: gameId || "",
     }),
   });
 };
