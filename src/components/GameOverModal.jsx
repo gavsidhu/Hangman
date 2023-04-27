@@ -1,9 +1,12 @@
 import { Fragment } from 'react'
+import React from "react";
 import { Dialog, Transition } from '@headlessui/react'
 import { useNavigate } from 'react-router-dom';
+import { sendScore } from "../api/saveScore";
 
-export default function GameOverModal({win, open, setOpen}) {
+export default function GameOverModal({win, open, setOpen, elapsedTime}) {
     const navigate = useNavigate();
+    const [name, setName] = React.useState("");
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -48,6 +51,7 @@ export default function GameOverModal({win, open, setOpen}) {
                           type="text"
                           name="name"
                           id="name"
+                          onChange={(event) => setName(event.target.value)}
                           className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           placeholder="Enter your name"
                         />
@@ -60,7 +64,16 @@ export default function GameOverModal({win, open, setOpen}) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
-                    onClick={() => navigate("/")}
+                    onClick={async () => {
+                      try {
+                        const response = await sendScore({ name, elapsedTime });
+                        // Handle the response from the API endpoint
+                        console.log(response);
+                      } catch (error) {
+                        // Handle errors that occur during the API request
+                        console.error(error);
+                      }
+                    }}
                   >
                     {win? "Save score": "Try again" }
                   </button>
