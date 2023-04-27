@@ -1,12 +1,14 @@
-import { Fragment } from 'react'
+import { Fragment } from "react";
 import React from "react";
-import { Dialog, Transition } from '@headlessui/react'
-import { useNavigate } from 'react-router-dom';
+import { Dialog, Transition } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 import { sendScore } from "../api/saveScore";
 
-export default function GameOverModal({win, open, setOpen, elapsedTime}) {
-    const navigate = useNavigate();
-    const [name, setName] = React.useState("");
+export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
+  const navigate = useNavigate();
+  const [name, setName] = React.useState("");
+  const params = new URLSearchParams(window.location.search);
+  const gameId = params.get("id");
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -37,25 +39,39 @@ export default function GameOverModal({win, open, setOpen, elapsedTime}) {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
-                    <Dialog.Title as="h3" className="text-xl font-semibold leading-6 text-gray-900">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-xl font-semibold leading-6 text-gray-900"
+                    >
                       Game Over
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        {win?<span className='text-base text-green-500'>You Win</span>:<span className='text-base text-red-500'>You Lose</span>}
+                        {win ? (
+                          <span className="text-base text-green-500">
+                            You Win
+                          </span>
+                        ) : (
+                          <span className="text-base text-red-500">
+                            You Lose
+                          </span>
+                        )}
                       </p>
                       {win && (
                         <div className="mt-2">
-                            <p className='py-2 text-sm'>Enter your name to be added to the leaderboard (optional)</p>
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          onChange={(event) => setName(event.target.value)}
-                          className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                          placeholder="Enter your name"
-                        />
-                      </div>
+                          <p className="py-2 text-sm">
+                            Enter your name to be added to the leaderboard
+                            (optional)
+                          </p>
+                          <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            onChange={(event) => setName(event.target.value)}
+                            className=" px-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder="Enter your name"
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
@@ -65,20 +81,28 @@ export default function GameOverModal({win, open, setOpen, elapsedTime}) {
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
                     onClick={async () => {
-                      if(!win) {
+                      if (!win) {
                         window.location.reload();
-                      }
-                      else if(!name) {
-                        alert("Please enter your name if you want to be added to the leaderboard.");
+                      } else if (!name) {
+                        alert(
+                          "Please enter your name if you want to be added to the leaderboard."
+                        );
                         return;
-                      }
-                      else {
+                      } else {
                         try {
-                          const response = await sendScore({ name, elapsedTime });
+                          const params = new URLSearchParams(
+                            window.location.search
+                          );
+                          const gameId = params.get("id");
+                          const response = await sendScore({
+                            name,
+                            elapsedTime,
+                            gameId,
+                          });
                           // Handle the response from the API endpoint
                           console.log(response);
                           alert(name + " has been added to the leaderboard.");
-                          navigate('/');
+                          navigate("/");
                         } catch (error) {
                           // Handle errors that occur during the API request
                           console.error(error);
@@ -86,8 +110,13 @@ export default function GameOverModal({win, open, setOpen, elapsedTime}) {
                       }
                     }}
                   >
-                    {win? "Save score": "Try again" }
+                    {win ? "Save score" : "Try again"}
                   </button>
+                  {gameId && (
+                    <a href={`/leaderboard?id=${gameId}`}>
+                      View Leaderboard for this game
+                    </a>
+                  )}
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -95,5 +124,5 @@ export default function GameOverModal({win, open, setOpen, elapsedTime}) {
         </div>
       </Dialog>
     </Transition.Root>
-  )
+  );
 }

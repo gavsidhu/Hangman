@@ -14,6 +14,8 @@ export default function Game() {
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [wrongAttempts, setWrongAttempts] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [pause, setPause] = useState(false);
+
   const transformWord = useCallback(
     (word) => {
       return word
@@ -45,7 +47,7 @@ export default function Game() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setElapsedTime((time) => time + 1);
+      if (!pause) setElapsedTime((time) => time + 1);
     }, 10);
 
     if ((maskedWord && !maskedWord.includes("_")) || wrongAttempts > 5) {
@@ -54,7 +56,7 @@ export default function Game() {
     return () => {
       clearInterval(timer);
     };
-  }, [maskedWord, wrongAttempts]);
+  }, [maskedWord, wrongAttempts, pause]);
 
   useEffect(() => {
     if (wrongAttempts > 5 || (maskedWord && !maskedWord.includes("_"))) {
@@ -64,12 +66,23 @@ export default function Game() {
 
   return (
     <div className="max-w-5xl mx-auto">
+      <button onClick={() => setPause(!pause)}>pause</button>
       <p>{elapsedTime / 100} seconds</p>
       {wrongAttempts > 5 && open && (
-        <GameOverModal win={false} open={open} setOpen={setOpen} elapsedTime={elapsedTime} />
+        <GameOverModal
+          win={false}
+          open={open}
+          setOpen={setOpen}
+          elapsedTime={elapsedTime}
+        />
       )}
       {maskedWord && !maskedWord.includes("_") && open && (
-        <GameOverModal win={true} open={open} setOpen={setOpen} elapsedTime={elapsedTime}/>
+        <GameOverModal
+          win={true}
+          open={open}
+          setOpen={setOpen}
+          elapsedTime={elapsedTime}
+        />
       )}{" "}
       <div className="text-center py-4">
         <p className="text-3xl">{maskedWord}</p>
@@ -99,6 +112,7 @@ export default function Game() {
                     }
                   }}
                   disabled={
+                    pause ||
                     wrongGuesses.includes(letter.toLowerCase()) ||
                     correctGuesses.includes(letter.toLowerCase()) ||
                     wrongAttempts > 5
