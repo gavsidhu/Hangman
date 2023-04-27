@@ -25,7 +25,10 @@ export const ChallengeAFriend = () => {
           dialog.current.showModal();
         }}
       />
-      <dialog ref={dialog}>
+      <dialog
+        ref={dialog}
+        className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
+      >
         <form
           className="flex flex-col space-y-4"
           onSubmit={async (event) => {
@@ -64,7 +67,7 @@ export const ChallengeAFriend = () => {
               required
             />
           </label>
-          <div>
+          <div className="space-x-3">
             <button
               onClick={handleClose}
               className="bg-gray-400 hover:bg-gray-500 text-white rounded-md p-2"
