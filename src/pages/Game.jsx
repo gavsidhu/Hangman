@@ -10,6 +10,7 @@ export default function Game() {
   const [correctGuesses, setCorrectGuesses] = useState([]);
   const [wrongGuesses, setWrongGuesses] = useState([]);
   const [wrongAttempts, setWrongAttempts] = useState(0);
+  const [elapsedTime, setElapsedTime] = useState(0);
   const transformWord = useCallback(
     (word) => {
       return word
@@ -39,8 +40,22 @@ export default function Game() {
     setMaskedWord(transformWord(word));
   }, [transformWord, word, correctGuesses]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsedTime((time) => time + 1);
+    }, 10);
+
+    if((maskedWord && !maskedWord.includes("_")) || wrongAttempts > 5) {
+      clearInterval(timer);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [maskedWord, wrongAttempts]);
+
   return (
     <div className="max-w-5xl mx-auto">
+      <p>{elapsedTime / 100} seconds</p>
       {wrongAttempts > 5 && <p>You Lost</p>}
       {maskedWord && !maskedWord.includes("_") && <p>You won!</p>}
       <div className="text-center py-4">
