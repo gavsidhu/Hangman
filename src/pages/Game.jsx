@@ -3,9 +3,12 @@ import Figure from "../components/Figure";
 import { alphabet } from "../constants/alphabet";
 import { wordBank } from "../constants/wordBank";
 import { getGameById } from "../api/get-game-by-id";
+import GameOverModal from "../components/GameOverModal";
 
 export default function Game() {
   const [word, setWord] = useState("");
+
+  const [open, setOpen] = useState(false);
 
   const [correctGuesses, setCorrectGuesses] = useState([]);
   const [wrongGuesses, setWrongGuesses] = useState([]);
@@ -45,7 +48,7 @@ export default function Game() {
       setElapsedTime((time) => time + 1);
     }, 10);
 
-    if((maskedWord && !maskedWord.includes("_")) || wrongAttempts > 5) {
+    if ((maskedWord && !maskedWord.includes("_")) || wrongAttempts > 5) {
       clearInterval(timer);
     }
     return () => {
@@ -53,11 +56,21 @@ export default function Game() {
     };
   }, [maskedWord, wrongAttempts]);
 
+  useEffect(() => {
+    if (wrongAttempts > 5 || (maskedWord && !maskedWord.includes("_"))) {
+      setOpen(true);
+    }
+  }, [wrongAttempts, maskedWord]);
+
   return (
     <div className="max-w-5xl mx-auto">
       <p>{elapsedTime / 100} seconds</p>
-      {wrongAttempts > 5 && <p>You Lost</p>}
-      {maskedWord && !maskedWord.includes("_") && <p>You won!</p>}
+      {wrongAttempts > 5 && open && (
+        <GameOverModal win={false} open={open} setOpen={setOpen} />
+      )}
+      {maskedWord && !maskedWord.includes("_") && open && (
+        <GameOverModal win={true} open={open} setOpen={setOpen} />
+      )}{" "}
       <div className="text-center py-4">
         <p className="text-3xl">{maskedWord}</p>
       </div>
