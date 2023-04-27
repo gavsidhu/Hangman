@@ -42,23 +42,7 @@ def new_game():
     # Return the new game link as a JSON response
     return jsonify({'id': new_game_id})
 
-# Define a route to submit a score
-@app.route('/submit_score', methods=['POST'])
-def submit_score():
-    # Get the user's name, score, and game ID from the request data
-    name = request.json['name']
-    score = request.json['score']
-    game_id = request.json['game_id']
 
-    # Store the score in the Firebase Realtime Database
-    db.reference('scores').push().set({
-        'name': name,
-        'score': score,
-        'game_id': game_id
-    })
-
-    # Return a success message as a JSON response
-    return jsonify({'message': 'Score submitted successfully.'})
 
 
 @app.route('/game/<game_id>')
@@ -75,37 +59,27 @@ def game_leaderboard(game_id):
     # Get the game data from the Firebase Realtime Database
     game_data = db.reference('games').child(game_id).get()
 
-    # Get the scores for the current game from the Firebase Realtime Database
-    scores_ref = db.reference('scores').order_by_child('game_id').equal_to(game_id).order_by_child('score').limit_to_last(10)
-    scores = scores_ref.get()
+    scores_ref = db.reference('scores')
+    scores_snapshot = scores_ref.order_by_child('game_id').equal_to(game_id).get()
 
-    # Reverse the order of the scores so that the highest scores are first
-    scores = {k: v for k, v in reversed(scores.items())}
-
-    # Create a list of leaderboard entries from the scores data
-    leaderboard = []
-    for score_id, score_data in scores.items():
-        leaderboard.append({
-            'name': score_data['name'],
-            'score': score_data['score']
-        })
-
+    scores = {}
+    for key, value in scores_snapshot.items():
+        scores[key] = value
     # Return the leaderboard data as a JSON response
-    return jsonify({
-        'game_data': game_data,
-        'leaderboard': leaderboard
-    })
+    return jsonify(scores)
 
 # Save the score to the leaderboard when user wins hangman and enters their name
 @app.route('/save_score', methods=['POST'])
 def save_score():
     name = request.json['name']
     score = request.json['score']
+    game_id = request.json['game_id']
 
     # Store the score in the Firebase Realtime Database
     db.reference('scores').push().set({
         'name': name,
-        'score': score
+        'score': score,
+        'game_id': game_id
     })
 
     # Return a success message as a JSON response
