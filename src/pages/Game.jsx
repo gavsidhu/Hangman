@@ -66,10 +66,10 @@ export default function Game() {
     <div className="max-w-5xl mx-auto">
       <p>{elapsedTime / 100} seconds</p>
       {wrongAttempts > 5 && open && (
-        <GameOverModal win={false} open={open} setOpen={setOpen} />
+        <GameOverModal win={false} open={open} setOpen={setOpen} elapsedTime={elapsedTime} />
       )}
       {maskedWord && !maskedWord.includes("_") && open && (
-        <GameOverModal win={true} open={open} setOpen={setOpen} />
+        <GameOverModal win={true} open={open} setOpen={setOpen} elapsedTime={elapsedTime}/>
       )}{" "}
       <div className="text-center py-4">
         <p className="text-3xl">{maskedWord}</p>
