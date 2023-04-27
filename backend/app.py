@@ -18,8 +18,6 @@ firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://hangman-d0115-default-rtdb.firebaseio.com/'
 })
 
-
-
 # Define a route to generate a new game link
 @app.route('/new_game', methods=['POST'])
 def new_game():
@@ -97,6 +95,21 @@ def game_leaderboard(game_id):
         'game_data': game_data,
         'leaderboard': leaderboard
     })
+
+# Save the score to the leaderboard when user wins hangman and enters their name
+@app.route('/save_score', methods=['POST'])
+def save_score():
+    name = request.json['name']
+    score = request.json['score']
+
+    # Store the score in the Firebase Realtime Database
+    db.reference('scores').push().set({
+        'name': name,
+        'score': score
+    })
+
+    # Return a success message as a JSON response
+    return jsonify({'message': 'Score submitted successfully.'})
 
 
 @app.route('/')
