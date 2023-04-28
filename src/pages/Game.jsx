@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Figure from "../components/Figure";
 import { alphabet } from "../constants/alphabet";
+import { wordBank } from "../constants/wordBank";
 import { getGameById } from "../api/get-game-by-id";
 import GameOverModal from "../components/GameOverModal";
 import { PauseCircleIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
@@ -41,7 +42,10 @@ export default function Game() {
         .then((data) => { 
           setWord(data.word);
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error)
+          setWord(wordBank[Math.floor(Math.random() * wordBank.length)])
+        });
     }
   }, []);
 
