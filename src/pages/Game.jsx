@@ -113,7 +113,7 @@ export default function Game() {
                       : correctGuesses.includes(letter.toLowerCase())
                       ? "bg-green-500"
                       : "bg-gray-200"
-                  } hover:shadow-md h-12 disabled:cursor-not-allowed rounded-lg w-full`}
+                  } hover:shadow-md h-12 disabled:cursor-not-allowed rounded-lg w-full handDrawn font-display`}
                   onClick={() => {
                     const lowerCaseLetter = letter.toLowerCase();
                     const lowerCaseWord = word.toLowerCase();

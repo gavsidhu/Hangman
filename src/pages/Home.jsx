@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="max-w-6xl mx-auto text-center py-24">
       <div>
-        <h1 className="text-5xl font-bold">Play Hangman</h1>
+        <h1 className="text-5xl font-bold font-display">Play Hangman</h1>
       </div>
       <div className="flex flex-col md:flex-row items-center">
         <div className="w-full mx-auto py-6">
