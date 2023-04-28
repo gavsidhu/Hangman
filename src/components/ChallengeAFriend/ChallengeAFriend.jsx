@@ -30,7 +30,7 @@ export const ChallengeAFriend = () => {
         className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6"
       >
         <form
-          className="flex flex-col space-y-4"
+          className="flex flex-col space-y-4 text-normal"
           onSubmit={async (event) => {
             event.preventDefault();
             const response = await generateGameLink({
@@ -83,8 +83,8 @@ export const ChallengeAFriend = () => {
             </button>
 
             {gameId && (
-              <div>
-                <span>Send this link to your friend:</span>
+              <div className="py-4">
+                <p>Send this link to your friend:</p>
 
                 <a
                   className="text-blue-500 hover:text-blue-600"

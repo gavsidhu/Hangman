@@ -98,7 +98,7 @@ export default function Game() {
         />
       )}{" "}
       <div className="text-center py-4">
-        <p className="text-3xl">{maskedWord}</p>
+        <p className="text-3xl font-display">{maskedWord}</p>
       </div>
       <div className="flex flex-row py-12">
         <div className="w-1/2">

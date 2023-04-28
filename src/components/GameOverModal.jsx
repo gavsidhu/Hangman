@@ -38,31 +38,30 @@ export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-                <div>
+                <div className="font-normal">
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title
                       as="h3"
-                      className="text-xl font-semibold leading-6 text-gray-900"
+                      className={`${win?"text-green-500":"text-red-500"} text-2xl font-display leading-6 text-gray-900`}
                     >
-                      Game Over
+                      {win ? (
+                          
+                            "You Win"
+                          
+                        ) : (
+                          
+                            "You Lose"
+                          
+                        )}
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        {win ? (
-                          <span className="text-base text-green-500">
-                            You Win
-                          </span>
-                        ) : (
-                          <span className="text-base text-red-500">
-                            You Lose
-                          </span>
-                        )}
+                        
                       </p>
                       {win && (
                         <div className="mt-2">
                           <p className="py-2 text-sm">
                             Enter your name to be added to the leaderboard
-                            (optional)
                           </p>
                           <input
                             type="text"
@@ -119,11 +118,13 @@ export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
                   >
                     {win ? "Save score" : "Try again"}
                   </button>
+                  <div className="text-center mt-2">
                   {gameId && (
-                    <a href={`/leaderboard?id=${gameId}`}>
+                    <a href={`/leaderboard?id=${gameId}`} className="text-blue-500 hover:text-blue-600">
                       View Leaderboard for this game
                     </a>
                   )}
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

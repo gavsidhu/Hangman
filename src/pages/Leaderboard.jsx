@@ -24,10 +24,10 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <div className="max-w-xl mx-auto text-center">
+    <div className="max-w-xl mx-auto text-center font-normal">
       <div>
         <div className="flex items-center justify-center py-4">
-          <h1 className="text-5xl font-bold px-10">Leaderboard</h1>
+          <h1 className="text-5xl font-display px-10">Leaderboard</h1>
           <img src="/trophy.png" alt="trophy icon" className="w-20 h-30" />
         </div>
         { gameId && <h1 className="font-bold text-xl mt-10 mb-10">Game ID: {gameId}</h1>}
