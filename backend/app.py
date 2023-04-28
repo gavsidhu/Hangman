@@ -3,7 +3,7 @@ import firebase_admin
 from firebase_admin import credentials, db
 import os
 from flask_cors import CORS
-
+from faker import Faker
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
@@ -104,9 +104,20 @@ def main_leaderboard():
     # Return the leaderboard data as a JSON response
     return jsonify(sorted_list)
 
+# A route to generate a random word
+@app.route('/generate_random_word')
+def generate_random_word():
+    faker = Faker()
+    word = faker.word()
+
+    # Generates a word with at least 4 characters
+    while len(word) < 4:
+        word = faker.word()
+    return jsonify({"word": word})
+
 @app.route('/')
 def index():
-    return main_leaderboard()
+    return "Hello World"
 
 
 if __name__ == '__main__':
