@@ -7,7 +7,6 @@ import { PauseCircleIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 
 export default function Game() {
   const [word, setWord] = useState("");
-
   const [open, setOpen] = useState(false);
 
   const [correctGuesses, setCorrectGuesses] = useState([]);
@@ -87,6 +86,7 @@ export default function Game() {
           open={open}
           setOpen={setOpen}
           elapsedTime={elapsedTime}
+          word={word}
         />
       )}
       {maskedWord && !maskedWord.includes("_") && open && (
@@ -95,6 +95,7 @@ export default function Game() {
           open={open}
           setOpen={setOpen}
           elapsedTime={elapsedTime}
+          word={word}
         />
       )}{" "}
       <div className="text-center py-4">

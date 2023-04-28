@@ -4,7 +4,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { sendScore } from "../api/saveScore";
 
-export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
+export default function GameOverModal({ win, open, setOpen, elapsedTime, word }) {
   const navigate = useNavigate();
   const [name, setName] = React.useState("");
   const [isDisabled, setIsDisabled] = React.useState(false);
@@ -53,6 +53,7 @@ export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
                             "You Lose"
                           
                         )}
+                        <h3 className="text-black">Answer: {word}</h3>
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
