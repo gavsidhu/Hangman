@@ -6,7 +6,7 @@ from flask_cors import CORS
 from faker import Faker
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/*": {"origins": "https://sesl-hangman-team-6.vercel.app"}})
 
 
 # Get the absolute path to the service account key file
