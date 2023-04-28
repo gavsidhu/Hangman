@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 
 export default function Leaderboard() {
   const [scores, setScores] = useState({});
+  const [gameId, setGameId] = useState();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const gameId = params.get("id");
+    setGameId(gameId);
     if (gameId) {
       fetch(`${process.env.REACT_APP_API_URL}/game/${gameId}/leaderboard`)
         .then((response) => response.json())
@@ -28,6 +30,7 @@ export default function Leaderboard() {
           <h1 className="text-5xl font-bold px-10">Leaderboard</h1>
           <img src="/trophy.png" alt="trophy icon" className="w-20 h-30" />
         </div>
+        { gameId && <h1 className="font-bold text-xl mt-10 mb-10">Game ID: {gameId}</h1>}
         <table className="table-auto mx-auto mt-5 mb-10">
           <thead>
             <tr>

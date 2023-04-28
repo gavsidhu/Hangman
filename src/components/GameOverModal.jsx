@@ -7,6 +7,7 @@ import { sendScore } from "../api/saveScore";
 export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
   const navigate = useNavigate();
   const [name, setName] = React.useState("");
+  const [isDisabled, setIsDisabled] = React.useState(false);
   const params = new URLSearchParams(window.location.search);
   const gameId = params.get("id");
 
@@ -79,7 +80,11 @@ export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
                 <div className="mt-5 sm:mt-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+                    className={isDisabled ? 
+                      "inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600 disabled:cursor-not-allowed"
+                      : "inline-flex w-full justify-center rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-600"
+                    }
+                    disabled={isDisabled}
                     onClick={async () => {
                       if (!win) {
                         window.location.reload();
@@ -102,7 +107,9 @@ export default function GameOverModal({ win, open, setOpen, elapsedTime }) {
                           // Handle the response from the API endpoint
                           console.log(response);
                           alert(name + " has been added to the leaderboard.");
-                          navigate("/");
+                          setIsDisabled(true);
+                          if(!gameId)
+                            navigate("/");
                         } catch (error) {
                           // Handle errors that occur during the API request
                           console.error(error);
