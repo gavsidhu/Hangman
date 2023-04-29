@@ -37,15 +37,16 @@ export default function Game() {
         setWord(word);
       });
     } else {
-      fetch(`${process.env.REACT_APP_API_URL}/generate_random_word`)
-        .then((response) => response.json())
-        .then((data) => { 
-          setWord(data.word);
-        })
-        .catch((error) => {
-          console.error(error)
-          setWord(wordBank[Math.floor(Math.random() * wordBank.length)])
-        });
+      // fetch(`${process.env.REACT_APP_API_URL}/generate_random_word`)
+      //   .then((response) => response.json())
+      //   .then((data) => { 
+      //     setWord(data.word);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error)
+      //     setWord(wordBank[Math.floor(Math.random() * wordBank.length)])
+      //   });
+      setWord(wordBank[Math.floor(Math.random() * wordBank.length)])
     }
   }, []);
 
